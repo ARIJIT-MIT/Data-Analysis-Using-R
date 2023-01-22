@@ -1,0 +1,48 @@
+---
+title: "Business-Analytics-1"
+author: "ARIJIT DUTTA"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r global_options, include=FALSE}
+library(knitr)
+library('readxl')
+library(ggplot2)
+opts_chunk$set(fig.align="center", fig.height=4.5, fig.width=5.5)
+```
+
+
+
+The problem is from Chapter-01 of Business Analytics by Christian Albright
+
+```{r }
+# We are using read.xlsx2() function from 'xlsx' package to read the Excel file named 
+# "P02_01.xlsx",by providing the full path name.
+students <- read_excel('F:/Software Practice/Business_Analytics/Albright/R/Ch-01-Datasets/P02_01.xlsx',sheet = 3,col_names = TRUE)
+# The head function from Base R package is displaying the first 06 rows from the dataframe 
+# created.
+head(students)
+```
+
+This chunk of codes 
+```{r}
+count_by_gender <- factor(students$Gender,levels = c('M','F'))
+summary(count_by_gender)
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+p <- ggplot(students,aes(count_by_gender))
+base <- p + geom_bar(fill='pink')+geom_text(stat='count',aes(label = after_stat(count)),vjust = -.3)
+
+base
+```
+```{r}
+by_country <- base + facet_wrap(~students$Nationality,ncol = 5)
+by_country
+
+```
+
+
